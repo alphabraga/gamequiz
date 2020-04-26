@@ -1,6 +1,6 @@
 let questions = []
 
-const urlApi = 'https://opentdb.com/api.php?amount=15&category=11&difficulty=easy&type=multiple'
+const urlApi = 'https://opentdb.com/api.php?amount=10&category=15&difficulty=medium&type=multiple'
 
 let numberOfquestions = questions.length
 
