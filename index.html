@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+    integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="row">
+      <div class="col-sm-10">
+        <h1>Cine Master</h1>
+      </div>
+      <div class="col-sm-2">
+        <p class="text-right">
+          <h2><span class="badge badge-info"> <span id="points"></span> <i class="fa fa-coins fa-fw"></i></span>
+          </h2>
+        </p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card sm-4 box-shadow">
+          <div class="card-body">
+            <p class="card-text"><b id="question-quote"></b></p>
+
+            <form>
+
+              <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">
+                  <input class="form-check-input" required="true" type="radio" name="a" id="a-0" value="0">
+                  <label for="a-0"><span class="anwer-text" id="anwer-zero"></span></label>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <input class="form-check-input" type="radio" name="a" id="a-1" value="1">
+                  <label for="a-1"><span class="anwer-text" id="anwer-one"></span></label>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <input class="form-check-input" type="radio" name="a" id="a-2" value="2">
+                  <label for="a-2"><span class="anwer-text" id="anwer-two"></span></label>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action">
+                  <input class="form-check-input" type="radio" name="a" id="a-3" value="3">
+                  <label for="a-3"><span class="anwer-text" id="anwer-three"></span></label>
+                </a>
+              </div>
+              <button type="submit" class="btn btn-sm btn-info btn-block"> <i class="fa fa-check fa-fw"></i>
+                answer</button>
+
+                <a id="finish" class="btn btn-sm btn-success btn-block text-white"> <i class="fa fa-flag fa-fw"></i>
+                  finish</a>
+              </form>
+
+
+
+            <hr>
+
+            <div class="row">
+              <div class="col-md-12">
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+                  <button id="previous" type="button" class="btn btn-secondary">Previous</button>
+                  <button id="next" type="button" class="btn btn-secondary">Next</button>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <p class="text-right text-muted">
+                  <span id="current-question"></span>/<span id="number-of-questions"></span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary close-modal" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+
+</html>
