@@ -1,53 +1,85 @@
+let configuration = { 'difficulty' : 'easy', 'category': 11, 'numberOfQuestions': 10 }
+
+const getUrlApi = ({numberOfQuestions , category, difficulty}) =>  `https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficulty}&type=multiple`
+
 let questions = []
-
-const urlApi = 'https://opentdb.com/api.php?amount=10&category=15&difficulty=medium&type=multiple'
-
-let numberOfquestions = questions.length
-
 let currentQuestion = 0
-
 let question = {}
-
 let answers = []
+let points = 0
 
-let points = 0;
+const resetQuiz = () => {
 
-const modal = document.querySelector('.modal')
+  form.reset()
 
-const closeButton =  document.querySelector('.close-modal')
+  questions = []
+  currentQuestion = 0
+  question = {}
+  answers = []
+  points = 0
 
-const pointsPainel = document.querySelector('#points')
+}
 
-const questionQuote = document.querySelector('#question-quote')
-
-const anwerZero = document.querySelector('#anwer-zero')
-
-const anwerOne = document.querySelector('#anwer-one')
-
-const anwerTwo = document.querySelector('#anwer-two')
-
-const anwerThree = document.querySelector('#anwer-three')
-
-const nextButton = document.querySelector('#next')
-
-const previousButton = document.querySelector('#previous')
-
-const currentQuestionElement = document.querySelector('#current-question')
-
+const modal =                    document.querySelector('.modal')
+const closeButton =              document.querySelector('.close-modal')
+const modalConfig =              document.querySelector('#config-modal.modal')
+const closeConfigButton =        document.querySelector('.close-config-modal')
+const formConfig =               document.querySelector('form#config-form')
+const pointsPainel =             document.querySelector('#points')
+const questionQuote =            document.querySelector('#question-quote')
+const anwerZero =                document.querySelector('#anwer-zero')
+const anwerOne =                 document.querySelector('#anwer-one')
+const anwerTwo =                 document.querySelector('#anwer-two')
+const anwerThree =               document.querySelector('#anwer-three')
+const nextButton =               document.querySelector('#next')
+const previousButton =           document.querySelector('#previous')
+const currentQuestionElement =   document.querySelector('#current-question')
 const numberOfQuestionsElement = document.querySelector('#number-of-questions')
+const anwerListElement =         document.querySelector('div.list-group')
+const form =                     document.querySelector('form')
+const finishButton =             document.querySelector('a#finish')
+const configurationElement =     document.querySelector('a#configuracao')
 
-const anwerListElement = document.querySelector('div.list-group')
 
-const form = document.querySelector('form')
+const configure = (difficulty, numberOfQuestions, category) => { 
 
-const finishButton = document.querySelector('a#finish')
+  configuration = { difficulty, category, numberOfQuestions }
+
+  return
+
+ }
+
+formConfig.addEventListener('submit', event => {
+
+  event.preventDefault()
+
+  configure(event.target.difficulty.value, event.target.numberOfQuestions.value, event.target.category.value)
+
+  fetchQuestions()
+  closeModalConfig()
+
+  return 
+
+})
+
+
+configurationElement.addEventListener('click', event =>{
+
+  event.preventDefault()
+
+  showModalConfig()
+
+
+
+})
 
 const fetchQuestions = async () => {
 
-  const response = await fetch(urlApi)
+  resetQuiz()
 
+  const response = await fetch(getUrlApi(configuration))
   const data = await response.json()
-
+ 
   boot(data)
 }
 
@@ -56,43 +88,39 @@ const render = () => {
     form.reset()
 
     pointsPainel.textContent = points
-
     question = questions[currentQuestion]
-
     questionQuote.innerHTML = question.question 
-
     anwerZero.innerHTML = question.correct_answer
-
     question.incorrect_answers = [question.correct_answer, ...question.incorrect_answers]
 
     newQuestionsOrder = question.incorrect_answers.sort( (a, b) => {
 
-        if(a < b) { return -1; }
+      if(a < b) { return -1; }
 
-        if(a > b) { return 1; }
+      if(a > b) { return 1; }
 
-        return 0;
+      return 0;
 
     } )
 
     question.incorrect_answers = newQuestionsOrder
 
-    anwerZero.innerHTML = question.incorrect_answers[0]
-    anwerOne.innerHTML = question.incorrect_answers[1]
-    anwerTwo.innerHTML = question.incorrect_answers[2]
+    anwerZero.innerHTML  = question.incorrect_answers[0]
+    anwerOne.innerHTML   = question.incorrect_answers[1]
+    anwerTwo.innerHTML   = question.incorrect_answers[2]
     anwerThree.innerHTML = question.incorrect_answers[3]
 
     currentQuestionElement.textContent = currentQuestion + 1   
 
-    numberOfQuestionsElement.textContent = numberOfquestions
+    numberOfQuestionsElement.textContent = configuration.numberOfQuestions
 
 
 }
 
 const goTo = questionIndex =>{
 
-  question = questions[questionIndex]
 
+  question = questions[currentQuestion]
   currentQuestion = questionIndex
 
   render()
@@ -107,7 +135,6 @@ const showModal = (message, error) => {
       modal.querySelector('.modal-header').classList.add('bg-danger')
       modal.querySelector('.modal-body').classList.add('bg-danger')
       modal.querySelector('.modal-footer').classList.add('bg-danger')
-
       modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-exclamation fa-fw"></i> Errou!`
 
     }else{
@@ -115,7 +142,6 @@ const showModal = (message, error) => {
       modal.querySelector('.modal-header').classList.add('bg-success')
       modal.querySelector('.modal-body').classList.add('bg-success')
       modal.querySelector('.modal-footer').classList.add('bg-success')
-
       modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-check fa-fw"></i> Acertou!`
 
     }
@@ -136,11 +162,9 @@ const closeModal = () => {
   modal.querySelector('.modal-header').classList.remove('bg-danger')
   modal.querySelector('.modal-body').classList.remove('bg-danger')
   modal.querySelector('.modal-footer').classList.remove('bg-danger')
-
   modal.querySelector('.modal-header').classList.remove('bg-success')
   modal.querySelector('.modal-body').classList.remove('bg-success')
   modal.querySelector('.modal-footer').classList.remove('bg-success')
-
   modal.querySelector('.modal-title').innerHTML = ''
 
   modal.classList.remove('ahashakeheartache')
@@ -149,17 +173,35 @@ const closeModal = () => {
 
 }
 
+const showModalConfig = () => {
+
+  formConfig.difficulty.value = configuration.difficulty
+  formConfig.category.value = configuration.category
+  formConfig.numberOfQuestions.value = configuration.numberOfQuestions
+
+  modalConfig.setAttribute('style', 'display:block')
+ 
+}
+
+const closeModalConfig = () => {
+
+  modalConfig.setAttribute('style', 'display:hide')
+
+}
+
+const finishQuiz = () => {
+
+  console.log('O jogo acababou... vamos reiniciar')
+
+  fetchQuestions()
+
+}
+
 finishButton.addEventListener('click', event => {
 
   event.preventDefault()
 
-  const mensagem = `Parabens! Você finalizou o Quizz`
-
-  showModal(mensagem, false)
-
-  form.reset()
-
-  fetchQuestions()
+  finishQuiz()
 
   return
 
@@ -167,20 +209,20 @@ finishButton.addEventListener('click', event => {
 
 nextButton.addEventListener('click', event =>{
 
-    event.preventDefault()
+  event.preventDefault()
 
-    if(currentQuestion + 1 < numberOfquestions){
+  if(currentQuestion + 1 < configuration.numberOfQuestions){
 
-      const questionIndex = currentQuestion + 1
+    const questionIndex = currentQuestion + 1
 
-      goTo(questionIndex)
+    goTo(questionIndex)
 
-      return
-    }
+    return
+  }
 
 })
 
-previousButton.addEventListener('click', event =>{
+previousButton.addEventListener('click', event => {
 
     event.preventDefault()
 
@@ -200,6 +242,14 @@ closeButton.addEventListener('click', event => {
     event.preventDefault()
 
     closeModal()
+
+})
+
+closeConfigButton.addEventListener('click', event => {
+
+  event.preventDefault()
+
+  closeModalConfig()
 
 })
 
@@ -224,7 +274,16 @@ form.addEventListener('submit', event => {
 
     event.target.reset()
 
-    goTo(currentQuestion + 1)
+    if( currentQuestion + 1 < configuration.numberOfQuestions ){
+
+      goTo(currentQuestion + 1)
+
+    }else{
+
+      finishQuiz()
+
+    }
+
 
 })
 
