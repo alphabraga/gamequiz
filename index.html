@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
     integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
-  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./assets/style.css">
 </head>
 
 <body>
@@ -24,6 +24,7 @@
         <p class="text-right">
           <div class="btn-group" role="group" aria-label="Basic example">
             <a href="#" class="btn btn-primary" id="configuracao"><i class="fa fa-cogs fa-fw"></i></a>
+            <a href="#" class="btn btn-warning" id="mute-button"><i class="fa fa-volume fa-fw"></i></a>
             <a href="#" class="btn btn-success"><span id="points"></span> <i class="fa fa-coins fa-fw"></i></a>
           </div>
         </p>
@@ -166,7 +167,19 @@
     </div>
   </div>
 
-  <script src="./app.js"></script>
+  <audio id="error-audio">
+    <source src="./assets/sounds/error.mp3" type="audio/mp3">
+    <source src="./assets/sounds/error.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+  <audio id="success-audio">
+    <source src="./assets/sounds/success.mp3" type="audio/mp3">
+    <source src="./assets/sounds/success.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
+    
+
+  <script src="./assets/app.js"></script>
 </body>
 
 </html>

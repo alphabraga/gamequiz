@@ -42,10 +42,31 @@ const form =                     document.querySelector('form')
 const finishButton =             document.querySelector('a#finish')
 const configurationElement =     document.querySelector('a#configuracao')
 const listGroupElement =         document.querySelector('div.list-group')
+const errorAudio =               document.querySelector("#error-audio"); 
+const successAudio =             document.querySelector("#success-audio"); 
+const muteButton   =             document.querySelector("#mute-button"); 
 
 // end selectors
 
 // functions
+
+const muteToggle = ()  => {
+
+  if(errorAudio.mute === true){
+
+    errorAudio.mute =  false
+    successAudio.mute =  false
+
+    return 
+
+  }
+
+  errorAudio.mute =  true
+  successAudio.mute =  true
+
+  return 
+
+}
 
 const formReset = () => {
 
@@ -74,12 +95,16 @@ const configure = (difficulty, numberOfQuestions, category) => {
     modal.querySelector('.modal-footer').classList.add('bg-danger')
     modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-exclamation fa-fw"></i> You made a bad mistake!`
 
+    errorAudio.play()
+
   }else{
 
     modal.querySelector('.modal-header').classList.add('bg-success')
     modal.querySelector('.modal-body').classList.add('bg-success')
     modal.querySelector('.modal-footer').classList.add('bg-success')
     modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-check fa-fw"></i> Congratulations!`
+
+    successAudio.play()
 
   }
 
@@ -202,6 +227,16 @@ const boot = (questionsData) => {
 
 
 // listeners
+
+muteButton.addEventListener('click', event => {
+
+  event.preventDefault()
+
+  muteToggle()
+
+  return 
+
+})
 
 listGroupElement.addEventListener('click', event => {
 

@@ -2,7 +2,7 @@
 
 Movie Master is a quiz that uses opendb.com api
 
-![Image of Yaktocat](./movie-master.png)
+![Image of Yaktocat](./assets/movie-master.png)
 
 ## Getting Started
 
