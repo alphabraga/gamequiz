@@ -10,7 +10,7 @@ let points = 0
 
 const resetQuiz = () => {
 
-  form.reset()
+  formReset()
 
   questions = []
   currentQuestion = 0
@@ -46,6 +46,14 @@ const listGroupElement =         document.querySelector('div.list-group')
 // end selectors
 
 // functions
+
+const formReset = () => {
+
+  form.reset()
+  const allOptions     = document.querySelectorAll('div.list-group a')
+  allOptions.forEach( option => option.classList.remove('active') )
+
+}
 
 const configure = (difficulty, numberOfQuestions, category) => { 
 
@@ -96,7 +104,7 @@ const fetchQuestions = async () => {
 
 const render = () => {
 
-    form.reset()
+    formReset()
 
     pointsPainel.textContent = points
     question = questions[currentQuestion]
@@ -198,9 +206,6 @@ const boot = (questionsData) => {
 listGroupElement.addEventListener('click', event => {
 
   const selectedOption = document.querySelector(`[data-js="${event.target.dataset.js}"]`)
-  const allOptions     = document.querySelectorAll('div.list-group a')
-
-  allOptions.forEach( option => option.classList.remove('active') )
 
   selectedOption.classList.toggle('active')
   
