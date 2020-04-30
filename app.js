@@ -41,6 +41,7 @@ const anwerListElement =         document.querySelector('div.list-group')
 const form =                     document.querySelector('form')
 const finishButton =             document.querySelector('a#finish')
 const configurationElement =     document.querySelector('a#configuracao')
+const listGroupElement =         document.querySelector('div.list-group')
 
 // end selectors
 
@@ -193,6 +194,21 @@ const boot = (questionsData) => {
 
 
 // listeners
+
+listGroupElement.addEventListener('click', event => {
+
+  const selectedOption = document.querySelector(`[data-js="${event.target.dataset.js}"]`)
+  const allOptions     = document.querySelectorAll('div.list-group a')
+
+  allOptions.forEach( option => option.classList.remove('active') )
+
+  selectedOption.classList.toggle('active')
+  
+  const radio =  selectedOption.querySelector('input')
+
+  radio.checked = true
+
+})
 
 formConfig.addEventListener('submit', event => {
 
