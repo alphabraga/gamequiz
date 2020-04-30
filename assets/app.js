@@ -45,6 +45,7 @@ const listGroupElement =         document.querySelector('div.list-group')
 const errorAudio =               document.querySelector("#error-audio"); 
 const successAudio =             document.querySelector("#success-audio"); 
 const muteButton   =             document.querySelector("#mute-button"); 
+const mutedBanArea =             document.querySelector('span#ban-area')
 
 // end selectors
 
@@ -52,12 +53,14 @@ const muteButton   =             document.querySelector("#mute-button");
 
 const muteToggle = ()  => {
 
+  const banHTML = '<i class="fa fa-ban fa-stack-2x" style="color: tomato;"></i>'
+
   if(errorAudio.muted === true){
 
     errorAudio.muted =  false
     successAudio.muted =  false
 
-    console.log('Som ativado')
+    mutedBanArea.innerHTML = null
 
     return 
 
@@ -66,7 +69,7 @@ const muteToggle = ()  => {
   errorAudio.muted =  true
   successAudio.muted =  true
 
-  console.log('Som desativado')
+  mutedBanArea.innerHTML = banHTML
 
   return 
 
@@ -245,6 +248,7 @@ muteButton.addEventListener('click', event => {
 
   muteToggle()
 
+  
   return 
 
 })
