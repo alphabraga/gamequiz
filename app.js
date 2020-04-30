@@ -20,6 +20,8 @@ const resetQuiz = () => {
 
 }
 
+// selectors
+
 const modal =                    document.querySelector('.modal')
 const closeButton =              document.querySelector('.close-modal')
 const modalConfig =              document.querySelector('#config-modal.modal')
@@ -40,6 +42,9 @@ const form =                     document.querySelector('form')
 const finishButton =             document.querySelector('a#finish')
 const configurationElement =     document.querySelector('a#configuracao')
 
+// end selectors
+
+// functions
 
 const configure = (difficulty, numberOfQuestions, category) => { 
 
@@ -49,29 +54,34 @@ const configure = (difficulty, numberOfQuestions, category) => {
 
  }
 
-formConfig.addEventListener('submit', event => {
+ const showModal = (message, error) => {
 
-  event.preventDefault()
+  modal.querySelector('.modal-body').textContent = message
 
-  configure(event.target.difficulty.value, event.target.numberOfQuestions.value, event.target.category.value)
+  if(error){
 
-  fetchQuestions()
-  closeModalConfig()
+    modal.querySelector('.modal-header').classList.add('bg-danger')
+    modal.querySelector('.modal-body').classList.add('bg-danger')
+    modal.querySelector('.modal-footer').classList.add('bg-danger')
+    modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-exclamation fa-fw"></i> You made a bad mistake!`
 
-  return 
+  }else{
 
-})
+    modal.querySelector('.modal-header').classList.add('bg-success')
+    modal.querySelector('.modal-body').classList.add('bg-success')
+    modal.querySelector('.modal-footer').classList.add('bg-success')
+    modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-check fa-fw"></i> Congratulations!`
 
+  }
 
-configurationElement.addEventListener('click', event =>{
+  modal.setAttribute('style', 'display:block')
 
-  event.preventDefault()
+  if(error){
 
-  showModalConfig()
-
-
-
-})
+    modal.classList.add('ahashakeheartache')
+  }
+ 
+}
 
 const fetchQuestions = async () => {
 
@@ -126,34 +136,7 @@ const goTo = questionIndex =>{
   render()
 }
 
-const showModal = (message, error) => {
 
-    modal.querySelector('.modal-body').textContent = message
-
-    if(error){
-
-      modal.querySelector('.modal-header').classList.add('bg-danger')
-      modal.querySelector('.modal-body').classList.add('bg-danger')
-      modal.querySelector('.modal-footer').classList.add('bg-danger')
-      modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-exclamation fa-fw"></i> Errou!`
-
-    }else{
-
-      modal.querySelector('.modal-header').classList.add('bg-success')
-      modal.querySelector('.modal-body').classList.add('bg-success')
-      modal.querySelector('.modal-footer').classList.add('bg-success')
-      modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-check fa-fw"></i> Acertou!`
-
-    }
-
-    modal.setAttribute('style', 'display:block')
-
-    if(error){
-
-      modal.classList.add('ahashakeheartache')
-    }
-   
-}
 
 const closeModal = () => {
 
@@ -196,6 +179,44 @@ const finishQuiz = () => {
   fetchQuestions()
 
 }
+
+
+const boot = (questionsData) => {
+
+  questions = questionsData.results
+
+  render()
+
+}
+
+// end functions 
+
+
+// listeners
+
+formConfig.addEventListener('submit', event => {
+
+  event.preventDefault()
+
+  configure(event.target.difficulty.value, event.target.numberOfQuestions.value, event.target.category.value)
+
+  fetchQuestions()
+  closeModalConfig()
+
+  return 
+
+})
+
+configurationElement.addEventListener('click', event =>{
+
+  event.preventDefault()
+
+  showModalConfig()
+
+
+
+})
+
 
 finishButton.addEventListener('click', event => {
 
@@ -263,13 +284,12 @@ form.addEventListener('submit', event => {
 
     if(resposta === question.correct_answer){
 
-        showModal(`Right answer, ${question.correct_answer}`, false)
-
-        points =+ 10
+      showModal(`Right answer, ${question.correct_answer}.`, false)
+      points =+ 10
 
     }else{
 
-        showModal(` Wrong! The correct answer is ${question.correct_answer}.`, true)
+      showModal(` Wrong! The correct answer is ${question.correct_answer}.`, true)
     }
 
     event.target.reset()
@@ -287,14 +307,7 @@ form.addEventListener('submit', event => {
 
 })
 
-
-const boot = (questionsData) => {
-
-  questions = questionsData.results
-
-  render()
-
-}
+// end listeners
 
 
 fetchQuestions()
