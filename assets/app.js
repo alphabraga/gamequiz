@@ -1,6 +1,6 @@
-let configuration = { 'difficulty' : 'easy', 'category': 11, 'numberOfQuestions': 10 }
+let configuration = { 'difficulty': 'easy', 'category': 11, 'numberOfQuestions': 10 }
 
-const getUrlApi = ({numberOfQuestions , category, difficulty}) =>  `https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficulty}&type=multiple`
+const getUrlApi = ({ numberOfQuestions, category, difficulty }) => `https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficulty}&type=multiple`
 
 let questions = []
 let currentQuestion = 0
@@ -22,63 +22,83 @@ const resetQuiz = () => {
 
 // selectors
 
-const modal =                    document.querySelector('.modal')
-const closeButton =              document.querySelector('.close-modal')
-const modalConfig =              document.querySelector('#config-modal.modal')
-const closeConfigButton =        document.querySelector('.close-config-modal')
-const formConfig =               document.querySelector('form#config-form')
-const pointsPainel =             document.querySelector('#points')
-const questionQuote =            document.querySelector('#question-quote')
-const anwerZero =                document.querySelector('#anwer-zero')
-const anwerOne =                 document.querySelector('#anwer-one')
-const anwerTwo =                 document.querySelector('#anwer-two')
-const anwerThree =               document.querySelector('#anwer-three')
-const nextButton =               document.querySelector('#next')
-const previousButton =           document.querySelector('#previous')
-const currentQuestionElement =   document.querySelector('#current-question')
+const modal = document.querySelector('.modal')
+const closeButton = document.querySelector('.close-modal')
+const modalConfig = document.querySelector('#config-modal.modal')
+const closeConfigButton = document.querySelector('.close-config-modal')
+const formConfig = document.querySelector('form#config-form')
+const pointsPainel = document.querySelector('#points')
+const questionQuote = document.querySelector('#question-quote')
+const anwerZero = document.querySelector('#anwer-zero')
+const anwerOne = document.querySelector('#anwer-one')
+const anwerTwo = document.querySelector('#anwer-two')
+const anwerThree = document.querySelector('#anwer-three')
+const nextButton = document.querySelector('#next')
+const previousButton = document.querySelector('#previous')
+const currentQuestionElement = document.querySelector('#current-question')
 const numberOfQuestionsElement = document.querySelector('#number-of-questions')
-const anwerListElement =         document.querySelector('div.list-group')
-const form =                     document.querySelector('form')
-const finishButton =             document.querySelector('a#finish')
-const configurationElement =     document.querySelector('a#configuracao')
-const listGroupElement =         document.querySelector('div.list-group')
-const errorAudio =               document.querySelector("#error-audio"); 
-const successAudio =             document.querySelector("#success-audio"); 
-const muteButton   =             document.querySelector("#mute-button"); 
-const mutedBanArea =             document.querySelector('span#ban-area')
+const anwerListElement = document.querySelector('div.list-group')
+const form = document.querySelector('form')
+const finishButton = document.querySelector('a#finish')
+const configurationElement = document.querySelector('a#configuracao')
+const listGroupElement = document.querySelector('div.list-group')
+const errorAudio = document.querySelector("#error-audio");
+const successAudio = document.querySelector("#success-audio");
+const muteButton = document.querySelector("#mute-button");
+const mutedBanArea = document.querySelector('span#ban-area')
 
 // end selectors
 
 // functions
 
-const muteToggle = ()  => {
+const muteToggle = () => {
 
   const banHTML = '<i class="fa fa-ban fa-stack-2x" style="color: tomato;"></i>'
 
-  if(errorAudio.muted === true){
+  if (errorAudio.muted === true) {
 
-    errorAudio.muted =  false
-    successAudio.muted =  false
+    errorAudio.muted = false
+    successAudio.muted = false
 
     mutedBanArea.innerHTML = null
 
-    return 
+    return
 
   }
 
-  errorAudio.muted =  true
-  successAudio.muted =  true
+  errorAudio.muted = true
+  successAudio.muted = true
 
   mutedBanArea.innerHTML = banHTML
 
-  return 
+  return
 
+}
+
+const shuffle = array => {
+ 
+  let ctr = array.length
+  let temp
+  let index
+
+  // While there are elements in the array
+  while (ctr > 0) {
+    // Pick a random index
+    index = Math.floor(Math.random() * ctr)
+    // Decrease ctr by 1
+    ctr--
+    // And swap the last element with it
+    temp = array[ctr]
+    array[ctr] = array[index]
+    array[index] = temp
+  }
+  return array
 }
 
 const clearAllOptions = () => {
 
-  const allOptions     = document.querySelectorAll('div.list-group a')
-  allOptions.forEach( option => option.classList.remove('active') )
+  const allOptions = document.querySelectorAll('div.list-group a')
+  allOptions.forEach(option => option.classList.remove('active'))
 
 }
 
@@ -90,19 +110,19 @@ const formReset = () => {
 
 }
 
-const configure = (difficulty, numberOfQuestions, category) => { 
+const configure = (difficulty, numberOfQuestions, category) => {
 
   configuration = { difficulty, category, numberOfQuestions }
 
   return
 
- }
+}
 
- const showModal = (message, error) => {
+const showModal = (message, error) => {
 
   modal.querySelector('.modal-body').innerHTML = message
 
-  if(error){
+  if (error) {
 
     modal.querySelector('.modal-header').classList.add('bg-danger')
     modal.querySelector('.modal-body').classList.add('bg-danger')
@@ -111,7 +131,7 @@ const configure = (difficulty, numberOfQuestions, category) => {
 
     errorAudio.play()
 
-  }else{
+  } else {
 
     modal.querySelector('.modal-header').classList.add('bg-success')
     modal.querySelector('.modal-body').classList.add('bg-success')
@@ -124,11 +144,11 @@ const configure = (difficulty, numberOfQuestions, category) => {
 
   modal.setAttribute('style', 'display:block')
 
-  if(error){
+  if (error) {
 
     modal.classList.add('ahashakeheartache')
   }
- 
+
 }
 
 const fetchQuestions = async () => {
@@ -137,45 +157,33 @@ const fetchQuestions = async () => {
 
   const response = await fetch(getUrlApi(configuration))
   const data = await response.json()
- 
+
   boot(data)
 }
 
 const render = () => {
 
-    formReset()
+  formReset()
 
-    pointsPainel.textContent = points
-    question = questions[currentQuestion]
-    questionQuote.innerHTML = question.question 
-    anwerZero.innerHTML = question.correct_answer
-    question.incorrect_answers = [question.correct_answer, ...question.incorrect_answers]
+  pointsPainel.textContent = points
+  question = questions[currentQuestion]
+  questionQuote.innerHTML = question.question
+  anwerZero.innerHTML = question.correct_answer
+  question.answers = shuffle([question.correct_answer, ...question.incorrect_answers])
 
-    newQuestionsOrder = question.incorrect_answers.sort( (a, b) => {
+  anwerZero.innerHTML  = question.answers[0]
+  anwerOne.innerHTML   = question.answers[1]
+  anwerTwo.innerHTML   = question.answers[2]
+  anwerThree.innerHTML = question.answers[3]
 
-      if(a < b) { return -1; }
+  currentQuestionElement.textContent = currentQuestion + 1
 
-      if(a > b) { return 1; }
-
-      return 0;
-
-    } )
-
-    question.incorrect_answers = newQuestionsOrder
-
-    anwerZero.innerHTML  = question.incorrect_answers[0]
-    anwerOne.innerHTML   = question.incorrect_answers[1]
-    anwerTwo.innerHTML   = question.incorrect_answers[2]
-    anwerThree.innerHTML = question.incorrect_answers[3]
-
-    currentQuestionElement.textContent = currentQuestion + 1   
-
-    numberOfQuestionsElement.textContent = configuration.numberOfQuestions
+  numberOfQuestionsElement.textContent = configuration.numberOfQuestions
 
 
 }
 
-const goTo = questionIndex =>{
+const goTo = questionIndex => {
 
 
   question = questions[currentQuestion]
@@ -211,7 +219,7 @@ const showModalConfig = () => {
   formConfig.numberOfQuestions.value = configuration.numberOfQuestions
 
   modalConfig.setAttribute('style', 'display:block')
- 
+
 }
 
 const closeModalConfig = () => {
@@ -248,8 +256,8 @@ muteButton.addEventListener('click', event => {
 
   muteToggle()
 
-  
-  return 
+
+  return
 
 })
 
@@ -259,8 +267,8 @@ listGroupElement.addEventListener('click', event => {
 
   clearAllOptions()
   selectedOption.classList.toggle('active')
-  
-  const radio =  selectedOption.querySelector('input')
+
+  const radio = selectedOption.querySelector('input')
 
   radio.checked = true
 
@@ -275,11 +283,11 @@ formConfig.addEventListener('submit', event => {
   fetchQuestions()
   closeModalConfig()
 
-  return 
+  return
 
 })
 
-configurationElement.addEventListener('click', event =>{
+configurationElement.addEventListener('click', event => {
 
   event.preventDefault()
 
@@ -300,11 +308,11 @@ finishButton.addEventListener('click', event => {
 
 })
 
-nextButton.addEventListener('click', event =>{
+nextButton.addEventListener('click', event => {
 
   event.preventDefault()
 
-  if(currentQuestion + 1 < configuration.numberOfQuestions){
+  if (currentQuestion + 1 < configuration.numberOfQuestions) {
 
     const questionIndex = currentQuestion + 1
 
@@ -317,24 +325,24 @@ nextButton.addEventListener('click', event =>{
 
 previousButton.addEventListener('click', event => {
 
-    event.preventDefault()
+  event.preventDefault()
 
-    if(currentQuestion - 1 >= 0){
+  if (currentQuestion - 1 >= 0) {
 
-      const questionIndex = currentQuestion - 1
+    const questionIndex = currentQuestion - 1
 
-      goTo(questionIndex)
+    goTo(questionIndex)
 
-      return
-    }
+    return
+  }
 
 })
 
 closeButton.addEventListener('click', event => {
 
-    event.preventDefault()
+  event.preventDefault()
 
-    closeModal()
+  closeModal()
 
 })
 
@@ -348,33 +356,33 @@ closeConfigButton.addEventListener('click', event => {
 
 form.addEventListener('submit', event => {
 
-    event.preventDefault()
+  event.preventDefault()
 
-    questions[currentQuestion].selectedAnswerIndex = Number(event.target.a.value)
+  questions[currentQuestion].selectedAnswerIndex = Number(event.target.a.value)
 
-    const resposta = question.incorrect_answers[event.target.a.value]
+  const resposta = question.answers[event.target.a.value]
 
-    if(resposta === question.correct_answer){
+  if (resposta === question.correct_answer) {
 
-      showModal(`Right answer, ${question.correct_answer}.`, false)
-      points += 10
+    showModal(`Right answer, ${question.correct_answer}.`, false)
+    points += 10
 
-    }else{
+  } else {
 
-      showModal(` Wrong! The correct answer is ${question.correct_answer}.`, true)
-    }
+    showModal(` Wrong! The correct answer is ${question.correct_answer}.`, true)
+  }
 
-    event.target.reset()
+  event.target.reset()
 
-    if( currentQuestion + 1 < configuration.numberOfQuestions ){
+  if (currentQuestion + 1 < configuration.numberOfQuestions) {
 
-      goTo(currentQuestion + 1)
+    goTo(currentQuestion + 1)
 
-    }else{
+  } else {
 
-      finishQuiz()
+    finishQuiz()
 
-    }
+  }
 
 
 })
