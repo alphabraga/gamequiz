@@ -52,27 +52,38 @@ const muteButton   =             document.querySelector("#mute-button");
 
 const muteToggle = ()  => {
 
-  if(errorAudio.mute === true){
+  if(errorAudio.muted === true){
 
-    errorAudio.mute =  false
-    successAudio.mute =  false
+    errorAudio.muted =  false
+    successAudio.muted =  false
+
+    console.log('Som ativado')
 
     return 
 
   }
 
-  errorAudio.mute =  true
-  successAudio.mute =  true
+  errorAudio.muted =  true
+  successAudio.muted =  true
+
+  console.log('Som desativado')
 
   return 
+
+}
+
+const clearAllOptions = () => {
+
+  const allOptions     = document.querySelectorAll('div.list-group a')
+  allOptions.forEach( option => option.classList.remove('active') )
 
 }
 
 const formReset = () => {
 
   form.reset()
-  const allOptions     = document.querySelectorAll('div.list-group a')
-  allOptions.forEach( option => option.classList.remove('active') )
+  clearAllOptions()
+
 
 }
 
@@ -242,6 +253,7 @@ listGroupElement.addEventListener('click', event => {
 
   const selectedOption = document.querySelector(`[data-js="${event.target.dataset.js}"]`)
 
+  clearAllOptions()
   selectedOption.classList.toggle('active')
   
   const radio =  selectedOption.querySelector('input')
