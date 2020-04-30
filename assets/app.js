@@ -100,7 +100,7 @@ const configure = (difficulty, numberOfQuestions, category) => {
 
  const showModal = (message, error) => {
 
-  modal.querySelector('.modal-body').textContent = message
+  modal.querySelector('.modal-body').innerHTML = message
 
   if(error){
 
@@ -357,7 +357,7 @@ form.addEventListener('submit', event => {
     if(resposta === question.correct_answer){
 
       showModal(`Right answer, ${question.correct_answer}.`, false)
-      points =+ 10
+      points += 10
 
     }else{
 
