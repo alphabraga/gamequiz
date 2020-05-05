@@ -1,6 +1,10 @@
 let configuration = { 'difficulty': 'easy', 'category': 11, 'numberOfQuestions': 10 }
 
-const getUrlApi = ({ numberOfQuestions, category, difficulty }) => `https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficulty}&type=multiple`
+const getUrlApi = ({ numberOfQuestions, category, difficulty }) => {
+
+  return `https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficulty}&type=multiple`
+
+}
 
 let questions = []
 let currentQuestion = 0
@@ -23,7 +27,8 @@ const resetQuiz = () => {
 // selectors
 
 const modal = document.querySelector('.modal')
-const closeButton = document.querySelector('.close-modal')
+//const closeButton = document.querySelector('.close-modal')
+//const closeButtonTop = document.querySelector('button.close')
 const modalConfig = document.querySelector('#config-modal.modal')
 const closeConfigButton = document.querySelector('.close-config-modal')
 const formConfig = document.querySelector('form#config-form')
@@ -118,7 +123,7 @@ const configure = (difficulty, numberOfQuestions, category) => {
 
 }
 
-const showModal = (message, error) => {
+const showModal = (title, message, error) => {
 
   modal.querySelector('.modal-body').innerHTML = message
 
@@ -127,7 +132,7 @@ const showModal = (message, error) => {
     modal.querySelector('.modal-header').classList.add('bg-danger')
     modal.querySelector('.modal-body').classList.add('bg-danger')
     modal.querySelector('.modal-footer').classList.add('bg-danger')
-    modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-exclamation fa-fw"></i> You made a bad mistake!`
+    modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-exclamation fa-fw"></i> ${title}`
 
     errorAudio.play()
 
@@ -136,7 +141,7 @@ const showModal = (message, error) => {
     modal.querySelector('.modal-header').classList.add('bg-success')
     modal.querySelector('.modal-body').classList.add('bg-success')
     modal.querySelector('.modal-footer').classList.add('bg-success')
-    modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-check fa-fw"></i> Congratulations!`
+    modal.querySelector('.modal-title').innerHTML = `<i class="fa fa-check fa-fw"></i> ${title}`
 
     successAudio.play()
 
@@ -150,7 +155,7 @@ const showModal = (message, error) => {
   }
 
 }
-
+/*
 const fetchQuestions = async () => {
 
   resetQuiz()
@@ -160,6 +165,42 @@ const fetchQuestions = async () => {
 
   boot(data)
 }
+*/
+
+const fetchQuestions =  async () => {
+
+  resetQuiz()
+
+  fetch(getUrlApi(configuration)).then( response => {
+
+    const data = response.json()
+
+    boot(data)
+
+
+  }).catch(error => {
+
+    const applicationError = true
+
+    const message = `Ocorreu um erro ao tentar pegar as penguntas da API.<br>
+              <br>
+              URL:
+              <br>
+              <a class="link" href="${getUrlApi(configuration)}" target="_blank">${getUrlApi(configuration)}</a>
+              <br>
+              ERRO:
+              <br>
+              <b>${error}</b>
+              `
+
+    showModal('Applicaton Error', message, applicationError)
+
+
+  })
+
+
+}
+
 
 const render = () => {
 
@@ -338,11 +379,20 @@ previousButton.addEventListener('click', event => {
 
 })
 
-closeButton.addEventListener('click', event => {
+modal.addEventListener('click', event => {
 
   event.preventDefault()
 
-  closeModal()
+  clickedElementTag = event.target.tagName
+
+  haveCloseClass = event.target.classList.contains('close') || event.target.classList.contains('close-modal')
+
+  //console.log(haveCloseClass)
+
+  if(haveCloseClass){
+
+    closeModal()
+  }
 
 })
 
@@ -364,12 +414,12 @@ form.addEventListener('submit', event => {
 
   if (resposta === question.correct_answer) {
 
-    showModal(`Right answer, ${question.correct_answer}.`, false)
+    showModal('Congratulations!', `Right answer, ${question.correct_answer}.`, false)
     points += 10
 
   } else {
 
-    showModal(` Wrong! The correct answer is ${question.correct_answer}.`, true)
+    showModal('Error',` Wrong! The correct answer is ${question.correct_answer}.`, true)
   }
 
   event.target.reset()
