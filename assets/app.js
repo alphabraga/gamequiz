@@ -56,6 +56,8 @@ const mutedBanArea = document.querySelector('span#ban-area')
 
 // functions
 
+const navigatorCanShare = () => navigator.share == true
+
 const muteToggle = () => {
 
   const banHTML = '<i class="fa fa-ban fa-stack-2x" style="color: tomato;"></i>'
@@ -281,6 +283,8 @@ const finishQuiz = () => {
 
 
 const boot = (questionsData) => {
+
+  console.log(navigatorCanShare())
 
   questions = questionsData.results
 
