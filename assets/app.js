@@ -284,7 +284,9 @@ const finishQuiz = () => {
 
 const boot = (questionsData) => {
 
-  console.log(navigatorCanShare())
+  alert(`O seu navegador faz o share? ${navigatorCanShare()}`)
+
+  
 
   questions = questionsData.results
 
