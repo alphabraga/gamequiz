@@ -208,8 +208,6 @@ const render = () => {
 
   formReset()
 
-  console.log(questions)
-
   pointsPainel.textContent = points
   question = questions[currentQuestion]
   questionQuote.innerHTML = question.question
