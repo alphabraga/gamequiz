@@ -173,10 +173,12 @@ const fetchQuestions =  async () => {
 
   fetch(getUrlApi(configuration)).then( response => {
 
-    const data = response.json()
+    return response.json()
+
+
+  }).then( data => {
 
     boot(data)
-
 
   }).catch(error => {
 
@@ -205,6 +207,8 @@ const fetchQuestions =  async () => {
 const render = () => {
 
   formReset()
+
+  console.log(questions)
 
   pointsPainel.textContent = points
   question = questions[currentQuestion]
