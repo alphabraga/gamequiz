@@ -270,7 +270,7 @@ const finishQuiz = () => {
 
 const boot = (questionsData) => {
 
-  console.log(`O seu navegador faz o share? ${navigator.share}`)
+  alert(`O seu navegador faz o share? ${navigator.share}`)
 
   questions = questionsData.results
 
