@@ -260,7 +260,7 @@ const closeModalConfig = () => {
 
 const finishQuiz = () => {
 
-  console.log('O jogo acababou... vamos reiniciar')
+  console.log('O jogo acabou... vamos reiniciar')
 
   fetchQuestions()
 
