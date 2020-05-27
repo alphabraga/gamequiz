@@ -25,10 +25,7 @@ const resetQuiz = () => {
 }
 
 // selectors
-
 const modal = document.querySelector('.modal')
-//const closeButton = document.querySelector('.close-modal')
-//const closeButtonTop = document.querySelector('button.close')
 const modalConfig = document.querySelector('#config-modal.modal')
 const closeConfigButton = document.querySelector('.close-config-modal')
 const formConfig = document.querySelector('form#config-form')
@@ -56,7 +53,7 @@ const mutedBanArea = document.querySelector('span#ban-area')
 
 // functions
 
-const navigatorCanShare = () => navigator.share == true
+const navigatorCanShare = () => navigator.share
 
 const muteToggle = () => {
 
@@ -157,17 +154,6 @@ const showModal = (title, message, error) => {
   }
 
 }
-/*
-const fetchQuestions = async () => {
-
-  resetQuiz()
-
-  const response = await fetch(getUrlApi(configuration))
-  const data = await response.json()
-
-  boot(data)
-}
-*/
 
 const fetchQuestions =  async () => {
 
@@ -284,9 +270,7 @@ const finishQuiz = () => {
 
 const boot = (questionsData) => {
 
-  alert(`O seu navegador faz o share? ${navigatorCanShare()}`)
-
-  
+  console.log(`O seu navegador faz o share? ${navigator.share}`)
 
   questions = questionsData.results
 
@@ -394,8 +378,6 @@ modal.addEventListener('click', event => {
   clickedElementTag = event.target.tagName
 
   haveCloseClass = event.target.classList.contains('close') || event.target.classList.contains('close-modal')
-
-  //console.log(haveCloseClass)
 
   if(haveCloseClass){
 

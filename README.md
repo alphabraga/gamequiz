@@ -1,21 +1,12 @@
-# Movie Master
+# Game Quiz
 
-Movie Master is a quiz that uses opendb.com api
+Game Quiz is a quiz that uses opendb.com api
 
-![Image of Yaktocat](./assets/quiz-master.png)
+![Game Quiz](./assets/quiz-master.png)
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-### Prerequisites
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
+To run this project in your development environment. Clone this project and then open indx.html in your browser
 
 ## Running the tests
 
