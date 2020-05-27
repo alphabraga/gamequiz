@@ -25,6 +25,7 @@ const resetQuiz = () => {
 }
 
 // selectors
+const shareButton = document.querySelector('#share')
 const modal = document.querySelector('.modal')
 const modalConfig = document.querySelector('#config-modal.modal')
 const closeConfigButton = document.querySelector('.close-config-modal')
@@ -52,8 +53,6 @@ const mutedBanArea = document.querySelector('span#ban-area')
 // end selectors
 
 // functions
-
-const navigatorCanShare = () => navigator.share
 
 const muteToggle = () => {
 
@@ -270,7 +269,11 @@ const finishQuiz = () => {
 
 const boot = (questionsData) => {
 
-  alert(`O seu navegador faz o share? ${navigator.share}`)
+  if(navigator.share){
+
+
+
+  }
 
   questions = questionsData.results
 
@@ -282,6 +285,26 @@ const boot = (questionsData) => {
 
 
 // listeners
+
+shareButton.addEventListener('click', event => {
+
+  event.preventDefault()
+
+
+  if(navigator.share){
+
+    navigator.share({title: document.title, text: window.location.href, url: window.location.href})
+    .then(() => console.log('Obrigado por compartilhar <3'),
+    error => console.log('Erro ao compartilhar:', error));
+
+    return 
+  }
+
+
+  console.log('não é possivel realizar essa operação')
+
+
+})
 
 muteButton.addEventListener('click', event => {
 
