@@ -1,10 +1,7 @@
 let configuration = { 'difficulty': 'easy', 'category': 11, 'numberOfQuestions': 10 }
 
-const getUrlApi = ({ numberOfQuestions, category, difficulty }) => {
-
-  return `https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficulty}&type=multiple`
-
-}
+const getUrlApi = ({ numberOfQuestions, category, difficulty }) =>
+  `https://opentdb.com/api.php?amount=${numberOfQuestions}&category=${category}&difficulty=${difficulty}&type=multiple`
 
 let questions = []
 let currentQuestion = 0
@@ -215,7 +212,6 @@ const render = () => {
 
 const goTo = questionIndex => {
 
-
   question = questions[currentQuestion]
   currentQuestion = questionIndex
 
@@ -252,31 +248,25 @@ const showModalConfig = () => {
 
 }
 
-const closeModalConfig = () => {
-
+const closeModalConfig = () => 
   modalConfig.setAttribute('style', 'display:hide')
-
-}
 
 const finishQuiz = () => {
 
-  console.log('O jogo acabou... vamos reiniciar')
 
-  fetchQuestions()
+  showModal('Congratulations!', `The game is over. You have a total of ${points}. A new game is starting.`, false)    
+
+  setTimeout(() => {
+    closeModal()
+    fetchQuestions()
+  }, 5000);
 
 }
 
 
 const boot = (questionsData) => {
 
-  if(navigator.share){
-
-
-
-  }
-
   questions = questionsData.results
-
   render()
 
 }
@@ -300,9 +290,7 @@ shareButton.addEventListener('click', event => {
     return 
   }
 
-
   console.log('não é possivel realizar essa operação')
-
 
 })
 
@@ -348,9 +336,6 @@ configurationElement.addEventListener('click', event => {
   event.preventDefault()
 
   showModalConfig()
-
-
-
 })
 
 
